@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biswajit Rout — Full Stack UI Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0b0e14;
+    --bg2: #111520;
+    --bg3: #161b27;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8eaf0;
+    --muted: #7a8096;
+    --hint: #4a5068;
+    --accent: #7f77dd;
+    --accent-light: #afa9ec;
+    --accent-dim: rgba(127,119,221,0.12);
+    --teal: #1d9e75;
+    --teal-light: #5dcaa5;
+    --teal-dim: rgba(29,158,117,0.12);
+    --amber: #ef9f27;
+    --amber-dim: rgba(239,159,39,0.12);
+    --coral: #d85a30;
+    --coral-dim: rgba(216,90,48,0.12);
+    --r: 10px;
+    --r-sm: 6px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(11,14,20,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+  }
+  .nav-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--accent-light);
+    letter-spacing: -0.01em;
+  }
+  .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 860px; margin: 0 auto; padding: 0 2rem; }
+
+  section { padding: 5rem 0; border-bottom: 0.5px solid var(--border); }
+  section:last-child { border-bottom: none; }
+
+  .sec-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .sec-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    padding: 6rem 0 5rem;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--teal-light);
+    background: var(--teal-dim);
+    border: 0.5px solid rgba(29,158,117,0.3);
+    border-radius: 20px;
+    padding: 4px 12px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-tag-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--teal-light);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .hero-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(40px, 7vw, 64px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .hero-name span { color: var(--accent-light); }
+  .hero-role {
+    font-size: 18px;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+  .hero-summary {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 580px;
+    line-height: 1.75;
+    margin-bottom: 2rem;
+  }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 3rem; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 14px; font-weight: 500;
+    padding: 10px 20px;
+    border-radius: var(--r-sm);
+    text-decoration: none;
+    border: none; cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: transparent;
+    color: var(--text);
+    font-size: 14px; font-weight: 500;
+    padding: 10px 20px;
+    border-radius: var(--r-sm);
+    text-decoration: none;
+    border: 0.5px solid var(--border2);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-secondary:hover { background: var(--bg3); }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r);
+    overflow: hidden;
+  }
+  .stat-item {
+    background: var(--bg2);
+    padding: 1.25rem 1rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 26px; font-weight: 600;
+    color: var(--accent-light);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-lbl { font-size: 12px; color: var(--muted); }
+
+  /* ── ABOUT ── */
+  .contact-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1.5rem; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--muted);
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+  }
+  .chip svg { width: 14px; height: 14px; flex-shrink: 0; stroke: var(--accent); }
+
+  /* ── EXPERIENCE ── */
+  .timeline { position: relative; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 11px; top: 6px; bottom: 0;
+    width: 0.5px;
+    background: var(--border2);
+  }
+  .exp-item { position: relative; padding-left: 36px; margin-bottom: 2.5rem; }
+  .exp-item:last-child { margin-bottom: 0; }
+  .exp-dot {
+    position: absolute; left: 0; top: 6px;
+    width: 23px; height: 23px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 0.5px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .exp-dot-inner {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .exp-card {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .exp-card:hover { border-color: var(--border2); }
+  .exp-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  .exp-title { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; color: var(--text); }
+  .exp-period {
+    font-size: 12px; color: var(--muted);
+    background: var(--bg3);
+    border: 0.5px solid var(--border);
+    border-radius: 20px;
+    padding: 3px 10px;
+    white-space: nowrap;
+  }
+  .exp-company	 { font-size: 13px; color: var(--accent-light); margin-bottom: 2px; }
+  .exp-project { font-size: 12px; color: var(--muted); margin-bottom: 1rem; }
+  .exp-bullets { list-style: none; }
+  .exp-bullets li {
+    font-size: 13.5px; color: var(--muted);
+    padding: 3px 0 3px 16px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .exp-bullets li::before {
+    content: '';
+    position: absolute; left: 0; top: 10px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+  .exp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 1rem; }
+  .exp-tag {
+    font-size: 11px; font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--accent-dim);
+    color: var(--accent-light);
+    border: 0.5px solid rgba(127,119,221,0.2);
+  }
+  .exp-tag.teal { background: var(--teal-dim); color: var(--teal-light); border-color: rgba(29,158,117,0.2); }
+  .exp-tag.amber { background: var(--amber-dim); color: var(--amber); border-color: rgba(239,159,39,0.2); }
+  .exp-tag.coral { background: var(--coral-dim); color: var(--coral); border-color: rgba(216,90,48,0.2); }
+
+  /* ── SKILLS ── */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .skill-card {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.1rem 1.25rem;
+    transition: border-color 0.2s;
+  }
+  .skill-card:hover { border-color: var(--border2); }
+  .skill-cat {
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .skill-cat-bar {
+    display: inline-block;
+    width: 16px; height: 2px;
+    border-radius: 1px;
+  }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill {
+    font-size: 12px; font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .pill-purple { background: rgba(127,119,221,0.15); color: #afa9ec; border: 0.5px solid rgba(127,119,221,0.25); }
+  .pill-teal   { background: rgba(29,158,117,0.12); color: #5dcaa5; border: 0.5px solid rgba(29,158,117,0.25); }
+  .pill-amber  { background: rgba(239,159,39,0.12); color: #ef9f27; border: 0.5px solid rgba(239,159,39,0.25); }
+  .pill-gray   { background: rgba(255,255,255,0.05); color: #b4b2a9; border: 0.5px solid rgba(255,255,255,0.1); }
+  .pill-coral  { background: rgba(216,90,48,0.12); color: #f0997b; border: 0.5px solid rgba(216,90,48,0.25); }
+  .pill-green  { background: rgba(99,153,34,0.12); color: #97c459; border: 0.5px solid rgba(99,153,34,0.25); }
+
+  /* ── PROJECTS ── */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+  .proj-card {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.25rem 1.5rem;
+    display: flex; flex-direction: column;
+    transition: border-color 0.2s;
+  }
+  .proj-card:hover { border-color: var(--accent); }
+  .proj-icon {
+    width: 38px; height: 38px;
+    border-radius: var(--r-sm);
+    background: var(--accent-dim);
+    border: 0.5px solid rgba(127,119,221,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 18px;
+  }
+  .proj-icon svg { width: 20px; height: 20px; stroke: var(--accent-light); }
+  .proj-title { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .proj-domain { font-size: 11px; color: var(--teal-light); background: var(--teal-dim); border-radius: 20px; padding: 2px 8px; display: inline-block; margin-bottom: 8px; }
+  .proj-desc { font-size: 13px; color: var(--muted); line-height: 1.65; flex: 1; margin-bottom: 1rem; }
+  .proj-stack { display: flex; flex-wrap: wrap; gap: 5px; }
+  .proj-tag {
+    font-size: 11px; padding: 2px 7px;
+    border-radius: 4px;
+    background: var(--bg3);
+    color: var(--hint);
+    border: 0.5px solid var(--border);
+  }
+
+  /* ── EDUCATION ── */
+  .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+  .edu-card {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.25rem 1.5rem;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .edu-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    border-radius: var(--r-sm);
+    background: var(--teal-dim);
+    border: 0.5px solid rgba(29,158,117,0.3);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .edu-icon svg { width: 20px; height: 20px; stroke: var(--teal-light); }
+  .edu-degree { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .edu-inst { font-size: 13px; color: var(--muted); }
+  .edu-year { font-size: 12px; color: var(--hint); margin-top: 2px; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2.5rem 0;
+    text-align: center;
+    font-size: 13px;
+    color: var(--hint);
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    nav { padding: 0 1rem; }
+    .nav-links { gap: 1rem; }
+    .container { padding: 0 1.25rem; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .hero-name { font-size: 36px; }
+    section { padding: 3.5rem 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-tag-dot { animation: none; }
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">BR</span>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-tag">
+      <span class="hero-tag-dot"></span>
+      Open to new opportunities
+    </div>
+    <h1 class="hero-name">Biswajit Rout</h1>
+    <p class="hero-role">Full stack UI developer &mdash; Angular &middot; React &middot; Node.js</p>
+    <p class="hero-summary">9+ years building high-performance, accessible web applications for Banking, Insurance, and FinTech. Specialist in component architecture, NgRx/Redux state management, and WCAG 2.1 AA accessibility — with a growing track record in agentic AI workflows.</p>
+    <div class="hero-cta">
+      <a href="mailto:biswajitrout0212@gmail.com" class="btn-primary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Get in touch
+      </a>
+      <a href="#experience" class="btn-secondary">View experience</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat-item"><div class="stat-num">9+</div><div class="stat-lbl">Years experience</div></div>
+      <div class="stat-item"><div class="stat-num">5</div><div class="stat-lbl">Companies</div></div>
+      <div class="stat-item"><div class="stat-num">70%+</div><div class="stat-lbl">Test coverage</div></div>
+      <div class="stat-item"><div class="stat-num">3</div><div class="stat-lbl">Domains</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="sec-label">About me</p>
+    <p style="font-size:15px;color:var(--muted);max-width:620px;line-height:1.8;">
+      Results-driven full stack UI developer with 9+ years of experience specialising in Angular (v10–v20), React, and Node.js, delivering high-performance, accessible, and scalable web applications for Banking, Insurance, and FinTech domains. Proven track record of building reusable component libraries, implementing NgRx/Redux state management, achieving 70%+ test coverage, and enforcing WCAG 2.1 AA accessibility standards. Based in Hyderabad, Telangana — fluent in English, Hindi, and Odia.
+    </p>
+    <div class="contact-chips">
+      <span class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        Hyderabad, Telangana
+      </span>
+      <span class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        biswajitrout0212@gmail.com
+      </span>
+      <span class="chip">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.06 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.06a16 16 0 0 0 5.95 5.95l1.23-1.23a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16l.92-.08Z"/></svg>
+        +91-7077218460
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <p class="sec-label">Career</p>
+    <h2 class="sec-title">Work experience</h2>
+    <div class="timeline">
+
+      <div class="exp-item">
+        <div class="exp-dot"><div class="exp-dot-inner"></div></div>
+        <div class="exp-card">
+          <div class="exp-top">
+            <div class="exp-title">Developer 2</div>
+            <span class="exp-period">Dec 2025 – May 2026</span>
+          </div>
+          <div class="exp-company">Hyland</div>
+          <div class="exp-project">Project: Satori UI</div>
+          <ul class="exp-bullets">
+            <li>Developed and maintained Satori UI, an Angular Material (Material 3) based design system delivering accessible, brand-consistent, and scalable UI components.</li>
+            <li>Implemented Material 3 theming and WCAG 2.1 AA compliant components ensuring inclusive user experiences across the platform.</li>
+            <li>Authored comprehensive component documentation and managed change management processes to ensure smooth release cycles.</li>
+            <li>Leveraged GitHub Copilot and Claude in agentic AI workflows — orchestrating component requirement analysis, Angular scaffolding, unit test generation, and Storybook documentation drafting.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">Angular Material</span>
+            <span class="exp-tag">Material 3</span>
+            <span class="exp-tag teal">WCAG 2.1 AA</span>
+            <span class="exp-tag teal">Storybook</span>
+            <span class="exp-tag amber">GitHub Copilot</span>
+            <span class="exp-tag amber">Claude AI</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-dot"><div class="exp-dot-inner"></div></div>
+        <div class="exp-card">
+          <div class="exp-top">
+            <div class="exp-title">Assistant Consultant</div>
+            <span class="exp-period">Oct 2024 – Sep 2025</span>
+          </div>
+          <div class="exp-company">Tata Consultancy Services</div>
+          <div class="exp-project">Project: Special Deals &amp; Self-Service</div>
+          <ul class="exp-bullets">
+            <li>Developed responsive Angular and React web applications translating Figma designs into production-ready code, enhancing usability and runtime performance.</li>
+            <li>Built reusable UI components using core React hooks (useState, useEffect, useContext, useReducer) with Redux for predictable state management.</li>
+            <li>Integrated RESTful APIs using Axios and React Query, ensuring efficient data fetching, error handling, and data consistency.</li>
+            <li>Contributed to a reusable component library with Storybook documentation — reducing development time by 30%.</li>
+            <li>Achieved 70% code coverage using Jest, React Testing Library, Jasmine, and Karma.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">Angular</span>
+            <span class="exp-tag">React</span>
+            <span class="exp-tag">Redux</span>
+            <span class="exp-tag">React Query</span>
+            <span class="exp-tag teal">Storybook</span>
+            <span class="exp-tag coral">Jest · RTL</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-dot"><div class="exp-dot-inner"></div></div>
+        <div class="exp-card">
+          <div class="exp-top">
+            <div class="exp-title">Lead software engineer</div>
+            <span class="exp-period">Mar 2022 – Oct 2024</span>
+          </div>
+          <div class="exp-company">Virtusa Consulting Services</div>
+          <div class="exp-project">Project: Account Center</div>
+          <ul class="exp-bullets">
+            <li>Built responsive Angular web applications from Figma designs with WCAG compliance via semantic HTML, ARIA attributes, and keyboard navigation.</li>
+            <li>Designed and implemented a robust NgRx state management solution for predictable and scalable application data flow.</li>
+            <li>Integrated RESTful APIs and implemented unit testing with Jest achieving 75% coverage.</li>
+            <li>Managed version control and implemented CI/CD pipelines that automated build, test, and deployment — reducing manual deployment time.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">Angular</span>
+            <span class="exp-tag">NgRx</span>
+            <span class="exp-tag teal">WCAG · ARIA</span>
+            <span class="exp-tag coral">Jest 75%</span>
+            <span class="exp-tag amber">CI/CD</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-dot"><div class="exp-dot-inner"></div></div>
+        <div class="exp-card">
+          <div class="exp-top">
+            <div class="exp-title">Senior software engineer</div>
+            <span class="exp-period">Nov 2020 – Mar 2022</span>
+          </div>
+          <div class="exp-company">CGI Information Systems</div>
+          <div class="exp-project">Project: Compliance</div>
+          <ul class="exp-bullets">
+            <li>Engineered a micro frontend solution with two independent frontends — Angular and React — backed by a shared Node.js backend.</li>
+            <li>Built and maintained Node.js RESTful APIs with middleware, request validation, and error handling supporting reliable communication between micro frontends.</li>
+            <li>Leveraged useMemo, useCallback, and Redux for optimised rendering and centralised state management.</li>
+            <li>Achieved 70% code coverage through unit and integration tests using Jasmine/Karma and Jest/RTL.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">Micro frontend</span>
+            <span class="exp-tag">Angular</span>
+            <span class="exp-tag">React</span>
+            <span class="exp-tag teal">Node.js</span>
+            <span class="exp-tag teal">Express.js</span>
+            <span class="exp-tag coral">Jest · Jasmine</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-dot"><div class="exp-dot-inner"></div></div>
+        <div class="exp-card">
+          <div class="exp-top">
+            <div class="exp-title">Development Engineer</div>
+            <span class="exp-period">May 2017 – Nov 2020</span>
+          </div>
+          <div class="exp-company">Vsoft Technologies</div>
+          <div class="exp-project">Project: Teller</div>
+          <ul class="exp-bullets">
+            <li>Analysed requirements and implemented responsive Single Page Applications using Angular, delivering high-performance user interfaces.</li>
+            <li>Collaborated with backend engineers to design, develop, and integrate RESTful APIs ensuring seamless data communication.</li>
+            <li>Conducted design and code reviews; mentored junior developers, fostering continuous learning and improving team-wide code quality.</li>
+          </ul>
+          <div class="exp-tags">
+            <span class="exp-tag">Angular</span>
+            <span class="exp-tag teal">RESTful APIs</span>
+            <span class="exp-tag amber">Mentoring</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <p class="sec-label">Expertise</p>
+    <h2 class="sec-title">Skills &amp; technologies</h2>
+    <div class="skills-grid">
+
+      <div class="skill-card">
+        <div class="skill-cat"><span class="skill-cat-bar" style="background:var(--accent)"></span>Frameworks &amp; Libraries</div>
+        <div class="pills">
+          <span class="pill pill-purple">Angular v10–v20</span>
+          <span class="pill pill-purple">React</span>
+          <span class="pill pill-teal">Node.js</span>
+          <span class="pill pill-teal">Express.js</span>
+          <span class="pill pill-purple">RxJS</span>
+          <span class="pill pill-purple">NgRx</span>
+          <span class="pill pill-purple">Redux</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-cat"><span class="skill-cat-bar" style="background:var(--amber)"></span>Languages</div>
+        <div class="pills">
+          <span class="pill pill-amber">JavaScript</span>
+          <span class="pill pill-amber">TypeScript</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-cat"><span class="skill-cat-bar" style="background:var(--muted)"></span>Styling &amp; markup</div>
+        <div class="pills">
+          <span class="pill pill-gray">HTML5</span>
+          <span class="pill pill-gray">CSS3</span>
+          <span class="pill pill-gray">SASS/SCSS</span>
+          <span class="pill pill-gray">Bootstrap</span>
+          <span class="pill pill-gray">Angular Material</span>
+          <span class="pill pill-gray">Flexbox</span>
+          <span class="pill pill-gray">CSS Grid</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-cat"><span class="skill-cat-bar" style="background:var(--coral)"></span>Testing</div>
+        <div class="pills">
+          <span class="pill pill-coral">Jest</span>
+          <span class="pill pill-coral">Jasmine</span>
+          <span class="pill pill-coral">Karma</span>
+          <span class="pill pill-coral">React Testing Library</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-cat"><span class="skill-cat-bar" style="background:var(--teal)"></span>Architecture</div>
+        <div class="pills">
+          <span class="pill pill-teal">Micro frontend</span>
+          <span class="pill pill-teal">Monorepo</span>
+          <span class="pill pill-teal">Component-driven</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-cat"><span class="skill-cat-bar" style="background:var(--muted)"></span>Dev tools &amp; process</div>
+        <div class="pills">
+          <span class="pill pill-gray">Storybook</span>
+          <span class="pill pill-gray">Webpack</span>
+          <span class="pill pill-gray">Git</span>
+          <span class="pill pill-gray">CI/CD</span>
+          <span class="pill pill-gray">Agile/Scrum</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-cat"><span class="skill-cat-bar" style="background:var(--accent-light)"></span>AI tools</div>
+        <div class="pills">
+          <span class="pill pill-purple">GitHub Copilot</span>
+          <span class="pill pill-purple">Claude</span>
+          <span class="pill pill-purple">Agentic workflows</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-cat"><span class="skill-cat-bar" style="background:var(--teal)"></span>Accessibility &amp; PerformanceInsurance</div>
+        <div class="pills">
+          <span class="pill pill-teal">WCAG 2.1 AA</span>
+          <span class="pill pill-teal">ARIA</span>
+          <span class="pill pill-teal">Lighthouse</span>
+          <span class="pill pill-teal">Lazy loading</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-cat"><span class="skill-cat-bar" style="background:var(--green, #639922)"></span>Databases</div>
+        <div class="pills">
+          <span class="pill pill-green">Oracle</span>
+          <span class="pill pill-green">MySQL</span>
+          <span class="pill pill-green">MongoDB</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <p class="sec-label">Work highlights</p>
+    <h2 class="sec-title">Notable projects</h2>
+    <div class="projects-grid">
+
+      <div class="proj-card">
+        <div class="proj-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="proj-domain">Design system</div>
+        <div class="proj-title">Satori UI — Hyland</div>
+        <p class="proj-desc">Angular Material 3 design system delivering accessible, brand-consistent components with comprehensive Storybook documentation. Reduced component delivery time using AI-assisted agentic workflows.</p>
+        <div class="proj-stack">
+          <span class="proj-tag">Angular</span>
+          <span class="proj-tag">Material 3</span>
+          <span class="proj-tag">Storybook</span>
+          <span class="proj-tag">WCAG 2.1 AA</span>
+          <span class="proj-tag">Claude AI</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="proj-domain">Insurance</div>
+        <div class="proj-title">Special Deals — AVIVA</div>
+        <p class="proj-desc">Multi-module Angular web application for insurance domain. Built reusable component library with Storybook — reducing development time by 30%.</p>
+        <div class="proj-stack">
+          <span class="proj-tag">Angular</span>
+          <span class="proj-tag">NgRx</span>
+          <span class="proj-tag">Jest</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="proj-domain">Banking</div>
+        <div class="proj-title">Account Center — Bread Financial</div>
+        <p class="proj-desc">Responsive, fully accessible Angular application with NgRx state management, 75% Jest test coverage, and automated CI/CD pipelines for the Bread Financial account management platform.</p>
+        <div class="proj-stack">
+          <span class="proj-tag">Angular</span>
+          <span class="proj-tag">NgRx</span>
+          <span class="proj-tag">Jest</span>
+          <span class="proj-tag">CI/CD</span>
+          <span class="proj-tag">ARIA</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>B.Sc
+        </div>
+        <div class="proj-domain">Banking</div>
+        <div class="proj-title">Compliance platform — Truist Bank</div>
+        <p class="proj-desc">Full-stack micro frontend architecture with independent Angular and React frontends sharing a Node.js backend. Built RESTful APIs with middleware, validation, and 70% test coverage.</p>
+        <div class="proj-stack">
+          <span class="proj-tag">Micro frontend</span>
+          <span class="proj-tag">Angular</span>
+          <span class="proj-tag">React</span>
+          <span class="proj-tag">Node.js</span>
+          <span class="proj-tag">Express</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <p class="sec-label">Background</p>
+    <h2 class="sec-title">Education</h2>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <div>
+          <div class="edu-degree">Master of Computer Application (MCA)</div>
+          <div class="edu-inst">Institute of Technical Education and Research</div>
+          <div class="edu-year">2013-2016</div>
+        </div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <div>
+          <div class="edu-degree">Bachelor of Science in Computer Science</div>
+          <div class="edu-inst">BJB Autonomous College</div>
+          <div class="edu-year">2010-2013</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <p class="sec-label">Let's connect</p>
+    <h2 class="sec-title">Get in touch</h2>
+    <p style="font-size:15px;color:var(--muted);max-width:500px;margin-bottom:2rem;line-height:1.75;">Open to Senior Frontend, Senior Angular, or Full Stack UI roles. Feel free to reach out via email or phone.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;">
+      <a href="mailto:biswajitrout0212@gmail.com" class="btn-primary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        biswajitrout0212@gmail.com
+      </a>
+      <a href="tel:+917077218460" class="btn-secondary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.06 1.2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.06a16 16 0 0 0 5.95 5.95l1.23-1.23a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16l.92-.08Z"/></svg>
+        +91-7077218460
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>Biswajit Rout &mdash; Full stack UI developer &mdash; Hyderabad, India</p>
+  </div>
+</footer>
+
+</body>
+</html>
